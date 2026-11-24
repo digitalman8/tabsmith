@@ -189,9 +189,12 @@ export interface TrackMixState {
   solo: boolean;
 }
 
+export type CameraMode = 'dynamic' | 'fullNeck';
+
 export interface PracticeSettings {
   playbackSpeed: number; // 0.25..1.5
   highwayLookaheadSec: number; // 1.5..5.0
+  cameraMode: CameraMode;
   invertStrings: boolean; // false = Rocksmith (Low E on top), true = Classic tab (High e on top)
   leftHanded: boolean;
   showMiniTab: boolean;
@@ -212,6 +215,7 @@ export interface PracticeSettings {
 export const DEFAULT_PRACTICE_SETTINGS: PracticeSettings = {
   playbackSpeed: 1.0,
   highwayLookaheadSec: 2.8,
+  cameraMode: 'dynamic',
   invertStrings: false,
   leftHanded: false,
   showMiniTab: true,

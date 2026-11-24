@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { DEMO_SONGS } from '../../data/demoSongs';
 import { loadTabFromAlphaTex } from '../tabLoader';
 import { computeActiveLanes } from '../timelineBuilder';
-import type { HighwayNote } from '../../types/music';
+import { DEFAULT_PRACTICE_SETTINGS, type HighwayNote } from '../../types/music';
 
 describe('timelineBuilder & demoSongs', () => {
   it('loads all 3 demo songs with tracks, sections, and measures', () => {
@@ -137,5 +137,13 @@ describe('timelineBuilder & demoSongs', () => {
     expect(lanes[0].anchorFret).toBeGreaterThanOrEqual(6);
     expect(lanes[0].anchorFret).toBeLessThanOrEqual(7);
     expect(lanes[1].anchorFret).toBe(1);
+    // Contiguous segments with no time gaps for time-segmented highway lanes
+    expect(lanes[0].startTimeMs).toBe(0);
+    expect(lanes[0].endTimeMs).toBe(lanes[1].startTimeMs);
+    expect(lanes[1].endTimeMs).toBe(3000);
+  });
+
+  it('exposes wide dynamic camera as the default practice cameraMode', () => {
+    expect(DEFAULT_PRACTICE_SETTINGS.cameraMode).toBe('dynamic');
   });
 });

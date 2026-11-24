@@ -314,23 +314,62 @@ export const TransportBar: React.FC<TransportBarProps> = ({
             <span className="font-mono">{settings.highwayLookaheadSec.toFixed(1)}s</span>
           </button>
           {openPopover === 'highway' && (
-            <div className="absolute bottom-full mb-2 left-0 w-64 p-3 rounded-xl bg-slate-900 border border-cyan-500/30 shadow-2xl z-50">
-              <div className="flex justify-between text-xs font-bold text-slate-200 mb-1">
-                <span>Antecipação da Esteira</span>
-                <span className="font-mono text-cyan-300">{settings.highwayLookaheadSec.toFixed(1)}s</span>
+            <div className="absolute bottom-full mb-2 left-0 w-72 p-3.5 rounded-xl bg-slate-900 border border-cyan-500/30 shadow-2xl z-50 space-y-3">
+              <div>
+                <div className="flex justify-between text-xs font-bold text-slate-200 mb-1">
+                  <span>Antecipação da Esteira</span>
+                  <span className="font-mono text-cyan-300">
+                    {settings.highwayLookaheadSec.toFixed(1)}s
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-400 mb-2">
+                  Valores menores espaçam mais as notas em solos rápidos sem alterar o BPM.
+                </p>
+                <input
+                  type="range"
+                  min={1.4}
+                  max={5.0}
+                  step={0.2}
+                  value={settings.highwayLookaheadSec}
+                  onChange={(e) =>
+                    onUpdateSettings({ highwayLookaheadSec: parseFloat(e.target.value) })
+                  }
+                  className="fret-slider w-full"
+                />
               </div>
-              <p className="text-[11px] text-slate-400 mb-2">
-                Valores menores espaçam mais as notas em solos rápidos sem alterar o BPM.
-              </p>
-              <input
-                type="range"
-                min={1.4}
-                max={5.0}
-                step={0.2}
-                value={settings.highwayLookaheadSec}
-                onChange={(e) => onUpdateSettings({ highwayLookaheadSec: parseFloat(e.target.value) })}
-                className="fret-slider w-full"
-              />
+
+              <div className="pt-2.5 border-t border-slate-800">
+                <div className="text-xs font-bold text-slate-200 mb-1.5">Câmera do Braço 3D</div>
+                <div className="grid grid-cols-2 gap-1 p-1 rounded-lg bg-slate-950 border border-slate-800">
+                  <button
+                    type="button"
+                    onClick={() => onUpdateSettings({ cameraMode: 'dynamic' })}
+                    className={`py-1.5 px-2 rounded-md text-[11px] font-bold transition-colors ${
+                      settings.cameraMode === 'dynamic'
+                        ? 'bg-cyan-500 text-slate-950'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    Dinâmica (Ampla)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onUpdateSettings({ cameraMode: 'fullNeck' })}
+                    className={`py-1.5 px-2 rounded-md text-[11px] font-bold transition-colors ${
+                      settings.cameraMode === 'fullNeck'
+                        ? 'bg-cyan-500 text-slate-950'
+                        : 'text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    Braço Fixo (1–22)
+                  </button>
+                </div>
+                <p className="text-[10px] text-slate-400 mt-1.5 leading-snug">
+                  {settings.cameraMode === 'dynamic'
+                    ? 'Exibe 16–20 casas e abre suavemente em saltos grandes, sem puxões.'
+                    : 'Mostra quase o braço inteiro fixo o tempo todo, sem movimento de câmera.'}
+                </p>
+              </div>
             </div>
           )}
         </div>
